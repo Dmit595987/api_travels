@@ -9,8 +9,27 @@ use Illuminate\Http\Request;
 
 class TourController extends Controller
 {
-    public function index(Travel $travel)
+    public function index(Travel $travel, Request $request)
     {
-        return TourResource::collection($travel->tours()->orderBy('starting_date')->paginate(15));
+        $tours = $travel->tours()
+            ->when($request->priceFrom, function ($query) use ($request){
+                $query->where('price', '>=', $request->priceFrom);
+            })
+            ->when($request->priceTo, function ($query) use ($request){
+                $query->where('price', '<=', $request->priceTo );
+            })
+            ->when($request->dateFrom, function ($query) use ($request){
+                $query->where('starting_date', '>=', $request->dateFrom );
+            })
+            ->when($request->dateTo, function ($query) use ($request){
+                $query->where('starting_date', '<=', $request->dateTo );
+            })
+            ->when($request->sortBy && $request->sortOrder, function ($query) use ($request){
+                if(!in_array($request->sortOrder, ['asc', 'desc'])) return;
+                $query->orderBy($request->sortBy, $request->sortOrder);
+            })
+            ->orderBy('starting_date')
+            ->paginate();
+        return TourResource::collection($tours);
     }
 }
