@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
 
         $travel = Travel::factory()->create();
         Tour::factory(10)->create(['travel_id' => $travel->id]);
+        $this->call(RoleSeeder::class);
     }
 }
