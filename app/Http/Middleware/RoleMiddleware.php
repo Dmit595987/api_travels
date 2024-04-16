@@ -15,10 +15,12 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
+
         if(! auth()->check()){
             abort(401);
         }
-        if(!auth()->user()->roles()->where('name', $role)->exists()){
+        if(!auth()->user()->roles()->where('name', $role)->exists() ){
+
             abort(403);
         }
 

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class AdminTourController extends Controller
 {
-    public function store(Travel $travel, AdminTourRequest $request)
+    public function store(Travel $travel, AdminTourRequest $request): TourResource
     {
         $tour = $travel->tours()->create($request->validated());
 
