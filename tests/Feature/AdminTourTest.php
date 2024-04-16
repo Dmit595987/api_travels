@@ -83,4 +83,36 @@ class AdminTourTest extends TestCase
         $response = $this->get('/api/v1/travels/'.$travel->slug.'/tours');
         $response->assertJsonFragment(['name' => 'Name new']);
     }
+
+    public function test_not_delete_tour_without_admin():void
+    {
+        $travel = Travel::factory()->create();
+        $tour = Tour::factory()->create([
+            'travel_id' => $travel->id
+        ]);
+
+        $response = $this->deleteJson('/api/v1/admin/tours/' . $tour->id);
+        $response->assertStatus(401);
+
+        $this->seed(RoleSeeder::class);
+        $user = User::factory()->create();
+        $user->roles()->attach(Role::where('name', 'editor')->value('id'));
+
+        $response = $this->actingAs($user)->deleteJson('/api/v1/admin/tours/' . $tour->id);
+        $response->assertStatus(403);
+    }
+
+    public function test_delete_ok_tour_with_admin_role():void
+    {
+        $travel = Travel::factory()->create();
+        $tour = Tour::factory()->create([
+            'travel_id' => $travel->id
+        ]);
+        $this->seed(RoleSeeder::class);
+        $user = User::factory()->create();
+        $user->roles()->attach(Role::where('name', 'admin')->value('id'));
+
+        $response = $this->actingAs($user)->deleteJson('/api/v1/admin/tours/' . $tour->id);
+        $response->assertStatus(204);
+    }
 }

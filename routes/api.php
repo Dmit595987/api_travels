@@ -31,6 +31,7 @@ Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
         Route::post('travels', [AdminTravelController::class, 'store']);
         Route::post('travels/{travel:slug}/tours', [AdminTourController::class, 'store']);
+        Route::delete('/tours/{tour}', [AdminTourController::class, 'destroy']);
     });
 
     Route::put('travels/{travel}', [AdminTravelController::class, 'update']);

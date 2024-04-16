@@ -23,4 +23,10 @@ class AdminTourController extends Controller
 
         return new TourResource($tour);
     }
+
+    public function destroy(Tour $tour)
+    {
+        $tour->delete();
+        return response()->json([], 204);
+    }
 }
