@@ -7,13 +7,12 @@ use App\Http\Requests\TourListRequest;
 use App\Http\Resources\TourResource;
 use App\Models\Travel;
 
-
 class TourController extends Controller
 {
     public function index(Travel $travel, TourListRequest $request)
     {
 
-        $tours =  $travel->tours()
+        $tours = $travel->tours()
             ->when($request->priceFrom, function ($query) use ($request) {
                 $query->where('price', '>=', $request->priceFrom * 100);
             })
@@ -27,7 +26,9 @@ class TourController extends Controller
                 $query->where('starting_date', '<=', $request->dateTo);
             })
             ->when($request->sortBy && $request->sortOrder, function ($query) use ($request) {
-                if(!in_array($request->sortOrder, ['asc', 'desc'])) return;
+                if (! in_array($request->sortOrder, ['asc', 'desc'])) {
+                    return;
+                }
                 $query->orderBy($request->sortBy, $request->sortOrder);
             })
             ->orderBy('starting_date')

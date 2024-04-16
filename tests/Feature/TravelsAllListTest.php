@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\Travel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TravelsAllListTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_travels_list_answer_is_ok(): void
     {
         Travel::factory(16)->create(['is_public' => true]);

@@ -35,12 +35,12 @@ class TourListRequest extends FormRequest
     public function messages(): array
     {
         return [
-//            'priceFrom.numeric' => 'priceFrom должен быть числом',
-//            'priceTo.numeric' => 'priceTo должен быть числом',
-//            'dateFrom.date' => 'dateFrom должен быть датой',
-//            'dateTo.date' => 'dateTo должен быть датой',
-//            'sortBy.in' => 'SortBy параметр должен быть равен "price"',
-//            'sortOrder.in' => 'sortOrder параметр должен быть равен "asc" или "desc"',
+            //            'priceFrom.numeric' => 'priceFrom должен быть числом',
+            //            'priceTo.numeric' => 'priceTo должен быть числом',
+            //            'dateFrom.date' => 'dateFrom должен быть датой',
+            //            'dateTo.date' => 'dateTo должен быть датой',
+            //            'sortBy.in' => 'SortBy параметр должен быть равен "price"',
+            //            'sortOrder.in' => 'sortOrder параметр должен быть равен "asc" или "desc"',
             'sortBy' => "The 'sortBy' parameter accepts only 'price' value",
             'sortOrder' => "The 'sortOrder' parameter accepts only 'asc' or 'desc' value",
 

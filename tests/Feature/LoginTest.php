@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_login_returns_token(): void
     {
 
@@ -25,7 +25,8 @@ class LoginTest extends TestCase
 
     }
 
-    public function test_login_return_abort_if_user_incorrect(): void{
+    public function test_login_return_abort_if_user_incorrect(): void
+    {
         $response = $this->postJson('/api/v1/login', [
             'email' => 'user_incorrect@mail.com',
             'password' => 'dgdfhdghfnhfnhn11DD',

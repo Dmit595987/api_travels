@@ -7,7 +7,6 @@ use App\Models\Travel;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AdminTravelTest extends TestCase
@@ -37,7 +36,7 @@ class AdminTravelTest extends TestCase
         $user->roles()->attach(Role::where('name', 'admin')->value('id'));
 
         $response = $this->actingAs($user)->postJson('/api/v1/admin/travels', [
-            'name' => 'Name'
+            'name' => 'Name',
         ]);
         $response->assertStatus(422);
 
@@ -63,15 +62,15 @@ class AdminTravelTest extends TestCase
 
         $travel = Travel::factory()->create();
 
-        $response = $this->actingAs($user)->putJson('/api/v1/admin/travels/' . $travel->id, [
+        $response = $this->actingAs($user)->putJson('/api/v1/admin/travels/'.$travel->id, [
             'name' => 'Name new',
         ]);
         $response->assertStatus(422);
 
-        $response = $this->actingAs($user)->putJson('/api/v1/admin/travels/' . $travel->id, [
+        $response = $this->actingAs($user)->putJson('/api/v1/admin/travels/'.$travel->id, [
             'name' => 'Name new',
-            "description" => "description new",
-            "number_of_days" => 23,
+            'description' => 'description new',
+            'number_of_days' => 23,
         ]);
         $response->assertStatus(200);
         $response->assertJsonFragment(['name' => 'Name new']);

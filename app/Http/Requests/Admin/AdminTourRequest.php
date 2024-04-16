@@ -22,7 +22,7 @@ class AdminTourRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', ],
+            'name' => ['required'],
             'starting_date' => ['required', 'date'],
             'ending_date' => ['required', 'date', 'after:starting_date'],
             'price' => ['required', 'numeric'],

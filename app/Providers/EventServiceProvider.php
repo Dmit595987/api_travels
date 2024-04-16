@@ -22,9 +22,9 @@ class EventServiceProvider extends ServiceProvider
         ],
     ];
     // так можно регистрировать ОБСЕРВЕР
-//    protected $observers = [
-//      Travel::class => [TravelObserver::class],
-//    ];
+    //    protected $observers = [
+    //      Travel::class => [TravelObserver::class],
+    //    ];
 
     /**
      * Register any events for your application.
