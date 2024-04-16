@@ -34,6 +34,7 @@ Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::put('travels/{travel}', [AdminTravelController::class, 'update']);
+    Route::put('/tours/{tour}', [AdminTourController::class, 'update']);
 
 });
 

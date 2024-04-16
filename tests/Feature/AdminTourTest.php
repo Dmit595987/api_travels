@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Role;
+use App\Models\Tour;
 use App\Models\Travel;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -55,5 +56,31 @@ class AdminTourTest extends TestCase
         $response = $this->get('/api/v1/travels/'.$travel->slug.'/tours');
         $response->assertJsonFragment(['name' => 'Name OK']);
 
+    }
+
+    public function test_ok_update_tour_with_user_editor(): void
+    {
+        $this->seed(RoleSeeder::class);
+        $user = User::factory()->create();
+        $user->roles()->attach(Role::where('name', 'editor')->value('id'));
+        $travel = Travel::factory()->create();
+        $tour = Tour::factory()->create([
+            'travel_id' => $travel->id
+        ]);
+        $response = $this->actingAs($user)->putJson('/api/v1/admin/tours/' . $tour->id, [
+            'name' => 'Name new',
+        ]);
+        $response->assertStatus(422);
+        $response = $this->actingAs($user)->putJson('/api/v1/admin/tours/' . $tour->id, [
+            'name' => 'Name new',
+            'starting_date' => now()->addDays(3),
+            'ending_date' => now()->addDays(10),
+            'price' => 99.99,
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment(['name' => 'Name new']);
+        $response = $this->get('/api/v1/travels/'.$travel->slug.'/tours');
+        $response->assertJsonFragment(['name' => 'Name new']);
     }
 }

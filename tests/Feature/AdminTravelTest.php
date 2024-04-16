@@ -54,7 +54,7 @@ class AdminTravelTest extends TestCase
 
     }
 
-    public function test_ok_update_travel_with_user_editor()
+    public function test_ok_update_travel_with_user_editor(): void
     {
         $this->seed(RoleSeeder::class);
         $user = User::factory()->create();
